@@ -1,0 +1,9 @@
+Copy these files into tcl directory on the pi.
+
+Then from the tcl directory run:
+
+sudo mv tcl_robot.service /etc/systemd/system/
+sudo chmod +x ./tcl_robot.sh
+sudo systemctl enable tcl_robot.service
+
+Then when you boot your Pi, it should run robot.py automatically.
