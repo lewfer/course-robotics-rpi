@@ -25,109 +25,112 @@ def handleKeys(window):
     leftDirection = 0
     rightDirection = 0
 
+    # Turn off the delay, so getch() doesn't wait for a key
+    window.nodelay(True)
+
     while running:
         key = window.getch()    # get a key press
         curses.flushinp()       # clear out all other key presses (so we don't buffer)
-        if key != -1:
-            # UP cursor key
-            if key==curses.KEY_UP:
-                print("KEY_UP")
-                
-                if (leftDirection==0 or rightDirection==0):
-                    # Currently stopped or turning so go straight forward
+    
+        # UP cursor key
+        if key==curses.KEY_UP:
+            print("KEY_UP\r")
+            
+            if (leftDirection==0 or rightDirection==0):
+                # Currently stopped or turning so go straight forward
+                leftDirection = 1
+                rightDirection = 1
+                speed = defaultSpeed
+            elif leftDirection==1 and rightDirection==1:
+                # Currently going forwards so increase forward speed
+                speed += 10
+                if speed > 100:
+                    speed = 100                       
+            else:
+                # Must be going backward, so decrease speed
+                speed -= 10
+                if speed < 0:
+                    # Speed has gone negative, so move forward
+                    speed = 10   
                     leftDirection = 1
-                    rightDirection = 1
-                    speed = defaultSpeed
-                elif leftDirection==1 and rightDirection==1:
-                    # Currently going forwards so increase forward speed
-                    speed += 10
-                    if speed > 100:
-                        speed = 100                       
-                else:
-                    # Must be going backward, so decrease speed
-                    speed -= 10
-                    if speed < 0:
-                        # Speed has gone negative, so move forward
-                        speed = 10   
-                        leftDirection = 1
-                        rightDirection = 1  
-                    
+                    rightDirection = 1  
+                
 
-            # DOWN cursor key
-            elif key==curses.KEY_DOWN: 
-                print("KEY_DOWN") 
-              
-                if leftDirection==0 or rightDirection==0:
-                    # Currently stopped or turning so go straight back
+        # DOWN cursor key
+        elif key==curses.KEY_DOWN: 
+            print("KEY_DOWN\r") 
+            
+            if leftDirection==0 or rightDirection==0:
+                # Currently stopped or turning so go straight back
+                leftDirection = -1
+                rightDirection = -1
+                speed = defaultSpeed
+            elif leftDirection==-1 and rightDirection==-1:
+                # Currently going backwards so increase backward speed
+                speed += 10
+                if speed > 100:
+                    speed = 100   
+            else:
+                # Must be going forward, so decrease speed
+                speed -= 10
+                if speed < 0:
+                    # Speed has gone negative, so move backward
+                    speed = 10   
                     leftDirection = -1
                     rightDirection = -1
-                    speed = defaultSpeed
-                elif leftDirection==-1 and rightDirection==-1:
-                    # Currently going backwards so increase backward speed
-                    speed += 10
-                    if speed > 100:
-                        speed = 100   
-                else:
-                    # Must be going forward, so decrease speed
-                    speed -= 10
-                    if speed < 0:
-                        # Speed has gone negative, so move backward
-                        speed = 10   
-                        leftDirection = -1
-                        rightDirection = -1
 
-            # Tab or space key
-            elif key==9 or key==ord(' '):
-                # Stop
-                speed = 0 
+        # Tab or space key
+        elif key==9 or key==ord(' '):
+            # Stop
+            speed = 0 
+            leftDirection = 0
+            rightDirection = 0                              
+
+        # LEFT cursor key
+        elif key==curses.KEY_LEFT:
+            print("KEY_LEFT\r")
+            
+            if leftDirection==0 and rightDirection==1:
+                # Already turning left so increase speed
+                speed += 10
+                if speed > 100:
+                    speed = 100            
+            else:          
+                # Turn left at current speed
                 leftDirection = 0
-                rightDirection = 0                              
+                rightDirection = 1
+            
+        # Turn right
+        elif key==curses.KEY_RIGHT:
+            print("KEY_RIGHT\r")
 
-            # LEFT cursor key
-            elif key==curses.KEY_LEFT:
-                print("KEY_LEFT")
-                
-                if leftDirection==0 and rightDirection==1:
-                    # Already turning left so increase speed
-                    speed += 10
-                    if speed > 100:
-                        speed = 100            
-                else:          
-                    # Turn left at current speed
-                    leftDirection = 0
-                    rightDirection = 1
-                
-            # Turn right
-            elif key==curses.KEY_RIGHT:
-                print("KEY_RIGHT")
+            if leftDirection==1 and rightDirection==0:
+                # Already turning right so increase speed
+                speed += 10
+                if speed > 100:
+                    speed = 100     
+            else:                
+                # Turn right at current speed
+                leftDirection = 1
+                rightDirection = 0
 
-                if leftDirection==1 and rightDirection==0:
-                    # Already turning right so increase speed
-                    speed += 10
-                    if speed > 100:
-                        speed = 100     
-                else:                
-                    # Turn right at current speed
-                    leftDirection = 1
-                    rightDirection = 0
+        # K key
+        elif key==ord('k'):
+            print("k")
 
-            # K key
-            elif key==ord('k'):
-                print("k")
+            # Quit
+            running = False
 
-                # Quit
-                running = False
+        elif key!=-1: 
+            print("Unhandled key",str(key), "\r")
 
-            else: 
-                print("Unhandled key",str(key))
+        # Now turn the motors according to the selected speed
+        print("Speed ", speed, "\r")
+        robot.turnMotors(speed*leftDirection, speed*rightDirection)              
 
-            # Now turn the motors according to the selected speed
-            print("Speed ", speed)
-            robot.turnMotors(speed*leftDirection, speed*rightDirection)              
-   
 
-            # Give the computer a bit of time to rest
-            robot.wait(0.1)
+        # Give the computer a bit of time to rest
+        robot.wait(0.1)
 
 # ======================================================================================================
 # Main program

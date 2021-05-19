@@ -26,30 +26,33 @@ def handleKeys(window):
     # Variable to indicate if we are still running
     running = True
 
+    # Turn off the delay, so getch() doesn't wait for a key
+    window.nodelay(True)
+
     while running:
         key = window.getch()    # get a key press
         curses.flushinp()       # clear out all other key presses (so we don't buffer)
-        if key != -1:
-            if key==curses.KEY_UP:
-                print("KEY_UP")
 
-            elif key==curses.KEY_DOWN: 
-                print("KEY_DOWN") 
+        if key==curses.KEY_UP:
+            print("KEY_UP\r")
 
-            elif key==curses.KEY_LEFT:
-                print("KEY_LEFT")
-                
-            elif key==curses.KEY_RIGHT:
-                print("KEY_RIGHT")
+        elif key==curses.KEY_DOWN: 
+            print("KEY_DOWN\r") 
 
-            elif key==ord('a') or key==ord('A') :
-                print("a")
+        elif key==curses.KEY_LEFT:
+            print("KEY_LEFT\r")
+            
+        elif key==curses.KEY_RIGHT:
+            print("KEY_RIGHT\r")
 
-            else: 
-                print("Unhandled key",str(key))
+        elif key==ord('a') or key==ord('A') :
+            print("a\r")
 
-            # Give the computer a bit of time to rest
-            robot.wait(0.1)
+        elif key!= -1: 
+            print("Unhandled key",str(key),"\r")
+
+        # Give the computer a bit of time to rest
+        robot.wait(0.1)
 
 # ======================================================================================================
 # Main program
