@@ -6,22 +6,18 @@
 # ======================================================================================================
 # Imports
 # ======================================================================================================
-from rosi import RosiRobot, RosiException 
+from rosi import RosiRobot
 
 
 # ======================================================================================================
 # Main program
 # ======================================================================================================
-try:
-    robot = RosiRobot()
 
-    robot.start()
+robot = RosiRobot()
 
-    # ******** DO SOMETHING HERE ********
+robot.start()
 
-    robot.finish()
+# ******** DO SOMETHING HERE ********
 
-except RosiException as e:
-    print(e.value)
-except KeyboardInterrupt:
-    robot.finish()  
+robot.finish()
+

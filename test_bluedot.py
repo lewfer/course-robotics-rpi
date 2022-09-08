@@ -1,5 +1,3 @@
-#! /usr/bin/python3
-
 # Think Create Learn
 # www.thinkcreatelearn.co.uk
 #

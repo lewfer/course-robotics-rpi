@@ -6,40 +6,32 @@
 # ======================================================================================================
 # Imports
 # ======================================================================================================
-from rosi import RosiRobot, RosiException 
+from rosi import RosiRobot
 
 
 # ======================================================================================================
 # Main program
 # ======================================================================================================
-try:
+print( 'Press CTRL+C to quit')
 
-    print( 'Press CTRL+C to quit')
+robot = RosiRobot()
+robot.start()
 
-    robot = RosiRobot()
+# Keep running until told to stop
+while True:
 
-    robot.start()
+    # Get the time measurement from the sonar sensor
+    time = round(robot.readSonarTime(),6)  
+    print(f"Time: {time:.6f} seconds")
 
-    # Keep running until told to stop
-    while True:
+    # Get the distance measurement from the sonar sensor
+    #distance = round(robot.readSonarDistance(),2)  
+    #print(f"Distance: {distance} cm")
 
-        # Get the time measurement from the sonar sensor
-        time = round(robot.readSonarTime(),6)  
-        print(f"Time: {time:.6f} seconds")
+    # ******** DO SOMETHING HERE ********  
 
-        # Get the distance measurement from the sonar sensor
-        #distance = round(robot.readSonarDistance(),2)  
-        #print(f"Distance: {distance} cm")
+    robot.wait(seconds=0.1)
 
-        # ******** DO SOMETHING HERE ********  
+robot.finish()
 
-        robot.wait(seconds=0.1)
-
-    robot.finish()
-
-except RosiException as e:
-    print(e.value)
-except KeyboardInterrupt:
-    robot.finish()    
-    
     

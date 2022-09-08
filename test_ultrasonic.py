@@ -6,33 +6,25 @@
 # ======================================================================================================
 # Imports
 # ======================================================================================================
-from rosi import RosiRobot, RosiException 
+from rosi import RosiRobot
 import math
 
 # ======================================================================================================
 # Main program
 # ======================================================================================================
-try:
+print( 'Press CTRL+C to quit')
 
-    print( 'Press CTRL+C to quit')
+robot = RosiRobot()
+robot.start()
 
-    robot = RosiRobot()
+global_sonarLastDistances = []
 
-    robot.start()
+# Keep running until told to stop
+while True:
+    distance = round(robot.readSonarDistance(),2)
+    print(distance)
+    robot.wait(seconds=0.5)
 
-    global_sonarLastDistances = []
+robot.finish()
 
-    # Keep running until told to stop
-    while True:
-        distance = round(robot.readSonarDistance(),2)
-        print(distance)
-        robot.wait(seconds=0.5)
 
-    robot.finish()
-
-except RosiException as e:
-    print(e.value)
-except KeyboardInterrupt:
-    robot.finish()    
-    
-    

@@ -6,25 +6,19 @@
 # ======================================================================================================
 # Imports
 # ======================================================================================================
-from rosi import RosiRobot, RosiException 
+from rosi import RosiRobot
 
 # ======================================================================================================
 # Main program
 # ======================================================================================================
-try:
-    robot = RosiRobot()
 
-    robot.start()
+robot = RosiRobot()
+robot.start()
 
-    led = robot.Led(channel=0)      # create an led on output channel 0
+led = robot.Led(channel=0)      # create an led on output channel 0
 
-    led.on()
-    robot.wait(seconds=5)
-    led.off()
-    
-    robot.finish()
+led.on()
+robot.wait(seconds=5)
+led.off()
 
-except RosiException as e:
-    print(e.value)
-except KeyboardInterrupt:
-    robot.finish()    
+robot.finish()

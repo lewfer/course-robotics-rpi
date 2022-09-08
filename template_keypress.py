@@ -6,7 +6,7 @@
 # ======================================================================================================
 # Imports
 # ======================================================================================================
-from rosi import RosiRobot, RosiException 
+from rosi import RosiRobot
 import curses
 
 # ======================================================================================================
@@ -57,19 +57,10 @@ def handleKeys(window):
 # ======================================================================================================
 # Main program
 # ======================================================================================================
-try:
+robot = RosiRobot()
+robot.start()
 
-    robot = RosiRobot()
-    
-    robot.start()
+curses.wrapper(handleKeys)
 
-    curses.wrapper(handleKeys)
+robot.finish()
 
-    robot.finish()
-
-except IOError as e:
-    print(e)
-except RosiException as e:
-    print(e.value)
-except KeyboardInterrupt:
-    robot.finish()    

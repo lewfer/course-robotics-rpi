@@ -8,7 +8,7 @@
 # ======================================================================================================
 # Imports
 # ======================================================================================================
-from rosi import RosiRobot, RosiException 
+from rosi import RosiRobot
 from bluedot import BlueDot
 
 
@@ -47,21 +47,16 @@ def bd_double_press():
 # ======================================================================================================
 # Main program
 # ======================================================================================================
-try:
-    robot = RosiRobot()
+robot = RosiRobot()
+robot.start()
 
-    robot.start()
+bd = BlueDot()
+bd.when_pressed = bd_move
+bd.when_moved = bd_move
+bd.when_released = bd_stop 
+bd.when_double_pressed = bd_double_press
 
-    bd = BlueDot()
-    bd.when_pressed = bd_move
-    bd.when_moved = bd_move
-    bd.when_released = bd_stop 
-    bd.when_double_pressed = bd_double_press
+while running:
+    robot.wait(0.1)
 
-    while running:
-        robot.wait(0.1)
-
-
-except RosiException as e:
-    print(e.value)
 
