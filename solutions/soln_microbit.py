@@ -38,7 +38,7 @@ while not (buttona==1 and buttonb==1):
     buttona = ubit.button_a
     buttonb = ubit.button_b
 
-    print(accel, buttona)
+    print(x, y, z, buttona, buttonb)
 
     # Respond to the values
     if y<-0.5:       # forward

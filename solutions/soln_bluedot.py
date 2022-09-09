@@ -96,6 +96,6 @@ try:
         robot.wait(0.1)
 
 
-except robot.RosiException as e:
+except RosiException as e:
     print(e.value)
 
